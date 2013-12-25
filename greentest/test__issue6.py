@@ -1,4 +1,5 @@
 from __future__ import print_function
+import six
 import sys
 
 
@@ -17,7 +18,7 @@ elif sys.argv[1:] == ['subprocess']:
     gevent.monkey.patch_all(sys=True)
 
     def printline():
-        line = raw_input()
+        line = six.builtins.raw_input()
         print('%s chars.' % len(line))
 
     gevent.spawn(printline).join()

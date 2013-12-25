@@ -187,7 +187,7 @@ FUZZ = 1e-6
 def fcmp(x, y): # fuzzy comparison function
     if type(x) == type(0.0) or type(y) == type(0.0):
         try:
-            x, y = coerce(x, y)
+            x, y = six.builtins.coerce(x, y)
             fuzz = (abs(x) + abs(y)) * FUZZ
             if abs(x-y) <= fuzz:
                 return 0
@@ -198,8 +198,8 @@ def fcmp(x, y): # fuzzy comparison function
             outcome = fcmp(x[i], y[i])
             if outcome != 0:
                 return outcome
-        return cmp(len(x), len(y))
-    return cmp(x, y)
+        return globals()['__builtins__'].cmp(len(x), len(y))
+    return six.builtins.cmp(x, y)
 
 try:
     six.text_type
