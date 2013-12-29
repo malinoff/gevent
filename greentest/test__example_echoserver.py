@@ -2,6 +2,7 @@ from gevent.socket import create_connection, timeout
 from unittest import main
 import gevent
 
+import six
 import util
 
 
@@ -10,7 +11,10 @@ class Test(util.TestServer):
 
     def _run_all_tests(self):
         def test_client(message):
-            conn = create_connection(('127.0.0.1', 6000)).makefile(bufsize=1)
+            if six.PY3:
+                conn = create_connection(('127.0.0.1', 6000)).makefile(buffering=1)
+            else:
+                conn = create_connection(('127.0.0.1', 6000)).makefile(bufsize=1)
             welcome = conn.readline()
             assert 'Welcome' in welcome, repr(welcome)
             conn.write(message)
